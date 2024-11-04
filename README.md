@@ -1,4 +1,4 @@
-# platformowka-w-sfml
+# gra SFML
 
 plan projektu:
 
