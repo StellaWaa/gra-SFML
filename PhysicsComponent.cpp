@@ -17,5 +17,5 @@ void PhysicsComponent::update_obj_pos(sf::RectangleShape& Obj, sf::Vector2f ObjS
 	Obj.move((ObjSpeed * float(ElapsedTime.asMilliseconds() / 10)));
 	
 
-	std::cout << ElapsedTime.asMilliseconds() << '\n';
+	//std::cout << ElapsedTime.asMilliseconds() << '\n';
 }

@@ -11,7 +11,6 @@ int main() {
 	sf::RenderWindow GameWindow(sf::VideoMode(WindowWidth, WindowHeight), "Game Window :D");
     GameWindow.setFramerateLimit(60);
     Player MainPlayer{ sf::Vector2f(300, 300) };
-    sf::RectangleShape Testrect{ sf::Vector2f(20,20) };
 
 
     while (GameWindow.isOpen())
