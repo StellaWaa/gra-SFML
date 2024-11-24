@@ -19,6 +19,10 @@ void Player::update()
 {
 	handle_player_input();
 	PlayerPhys.update_obj_pos(Hitbox, Speed);
+	if (Hitbox.getPosition().y > 1000) {
+		Hearts = 1;
+		take_dmg();
+	}
 	//std::cout << Hitbox.getPosition().y << "x: " << Hitbox.getPosition().y << std::endl;
 }
 
