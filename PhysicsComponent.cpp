@@ -11,8 +11,9 @@ void PhysicsComponent::update_obj_pos(sf::RectangleShape& Obj, sf::Vector2f ObjS
 	sf::Vector2f curr_pos = Obj.getPosition();
 	int y_change = (Gravity * pow(ElapsedTime.asMilliseconds(), 2)) / 2;
 	Obj.move(sf::Vector2f(0, y_change));
-	if (curr_pos.y >= 500) {
-		Obj.setPosition(sf::Vector2f(curr_pos.x, 500));
+	int barrier = 300;
+	if (curr_pos.y >= barrier) {
+		Obj.setPosition(sf::Vector2f(curr_pos.x, barrier));
 	}
 	Obj.move((ObjSpeed * float(ElapsedTime.asMilliseconds() / 10)));
 	

@@ -1,7 +1,9 @@
 #include "Player.h"
 
 Player::Player(sf::Vector2f start_pos)
-	:Hitbox(sf::Vector2f(50,100)), Speed(sf::Vector2f(0,0)), PlayerPhys()
+	:Hitbox(sf::Vector2f(50,100)), Speed(sf::Vector2f(0,0))
+	,PlayerPhys(), Hearts(3),spawn_pos(start_pos),DmgTimer()
+
 {
 	Hitbox.setPosition(start_pos);
 }
@@ -35,4 +37,18 @@ void Player::handle_player_input()
 sf::RectangleShape Player::get_hitbox() const
 {
 	return Hitbox;
+}
+
+void Player::take_dmg()
+{
+	bool CanTakeDmg = DmgTimer.getElapsedTime().asSeconds() > 3;
+	if (Hearts >= 2 and CanTakeDmg) {
+		Hearts--;
+		DmgTimer.restart();
+	}
+	else if(CanTakeDmg){
+		Hitbox.setPosition(spawn_pos);
+		Speed = sf::Vector2f(0, 0);
+		Hearts = 3;
+	}
 }

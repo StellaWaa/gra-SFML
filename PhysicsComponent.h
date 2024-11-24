@@ -2,6 +2,7 @@
 #include<SFML/Window.hpp>
 #include<SFML/Graphics.hpp>
 #include <iostream>
+#include "Platform.h"
 class PhysicsComponent
 {
 public:
