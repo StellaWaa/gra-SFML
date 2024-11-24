@@ -1,7 +1,7 @@
 #include "Player.h"
 
 Player::Player(sf::Vector2f start_pos,std::vector<Platform*> InPlatforms)
-	:Hitbox(sf::Vector2f(50,100)),PlayerPhys(InPlatforms)
+	:Hitbox(sf::Vector2f(50,70)),PlayerPhys(InPlatforms)
 	,Hearts(3),spawn_pos(start_pos),DmgTimer()
 
 {

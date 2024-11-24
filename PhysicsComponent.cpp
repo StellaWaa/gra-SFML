@@ -31,7 +31,6 @@ void PhysicsComponent::update_obj_pos(sf::RectangleShape& Obj, sf::Vector2f* Obj
 			else if (MoveVec.x < 0) {
 				Obj.setPosition(sf::Vector2f(CurPlatBounds.getPosition().x + CurPlatBounds.getSize().x, ObjBounds.getPosition().y));
 			}
-			//Obj.setPosition(sf::Vector2f(ObjBounds.getPosition().x, CurPlatBounds.getPosition().y - Obj.getSize().y));
 		}
 	}
 
@@ -42,7 +41,23 @@ void PhysicsComponent::update_obj_pos(sf::RectangleShape& Obj, sf::Vector2f* Obj
 		sf::FloatRect CurPlatBounds = CurPlatHitbox.getGlobalBounds();
 		ObjBounds = Obj.getGlobalBounds();
 		if (ObjBounds.intersects(CurPlatBounds)) {
-			Obj.setPosition(sf::Vector2f(ObjBounds.getPosition().x, CurPlatBounds.getPosition().y - Obj.getSize().y));
+			if (MoveVec.y > 0) {
+				Obj.setPosition(
+					sf::Vector2f(
+						ObjBounds.getPosition().x,
+					CurPlatBounds.getPosition().y - Obj.getSize().y
+					)
+				);
+			}
+			else if (MoveVec.y < 0) {
+				Obj.setPosition(
+					sf::Vector2f(
+						ObjBounds.getPosition().x,
+						CurPlatBounds.getPosition().y + CurPlatBounds.getSize().y
+					)
+				);
+			}
 		}
+			
 	}
 }
