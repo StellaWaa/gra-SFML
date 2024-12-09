@@ -1,8 +1,8 @@
 #include "Player.h"
 
-Player::Player(sf::Vector2f start_pos,std::vector<Platform*> InPlatforms)
-	:Hitbox(sf::Vector2f(50,70)),PlayerPhys(InPlatforms)
-	,Hearts(3),spawn_pos(start_pos),DmgTimer()
+Player::Player(sf::Vector2f start_pos,std::vector<Platform*> InPlatforms, std::vector<Enemy*> InEnemies)
+	:Hitbox(sf::Vector2f(50,70)),PlayerPhys(InPlatforms, InEnemies)
+	,Hearts(3),SpawnPos(start_pos),DmgTimer(),CanJump(true)
 
 {
 	Speed = new sf::Vector2f(0, 0);
@@ -17,13 +17,21 @@ Player::~Player()
 
 void Player::update()
 {
+
+	Collision CurCollision = PlayerPhys.update_obj_pos(Hitbox, Speed);
+	if (CurCollision.IsColliding == false)
+		CanJump = false;
+	else
+		CanJump = true;
+	if (CurCollision.IsEnemy) {
+		take_dmg();
+	}
 	handle_player_input();
-	PlayerPhys.update_obj_pos(Hitbox, Speed);
+
 	if (Hitbox.getPosition().y > 1000) {
 		Hearts = 1;
 		take_dmg();
 	}
-	//std::cout << Hitbox.getPosition().y << "x: " << Hitbox.getPosition().y << std::endl;
 }
 
 void Player::handle_player_input()
@@ -38,11 +46,11 @@ void Player::handle_player_input()
 		Speed->x = 0;
 	}
 
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::W)) {
-		Speed->y = -30;
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::W) and CanJump) {
+		Speed->y = -100;
 	}
 	else {
-		Speed->y = 0;
+		//Speed->y = 0;
 	}
 }
 
@@ -53,14 +61,19 @@ sf::RectangleShape Player::get_hitbox() const
 
 void Player::take_dmg()
 {
-	bool CanTakeDmg = DmgTimer.getElapsedTime().asSeconds() > 3;
+	bool CanTakeDmg = DmgTimer.getElapsedTime().asSeconds() > 1;
 	if (Hearts >= 2 and CanTakeDmg) {
 		Hearts--;
 		DmgTimer.restart();
 	}
 	else if(CanTakeDmg){
-		Hitbox.setPosition(spawn_pos);
+		Hitbox.setPosition(SpawnPos);
 		*Speed = sf::Vector2f(0, 0);
 		Hearts = 3;
 	}
+}
+
+int Player::get_hearts()
+{
+	return Hearts;
 }
