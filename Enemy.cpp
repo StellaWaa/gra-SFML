@@ -12,3 +12,13 @@ sf::RectangleShape Enemy::get_hitbox() const
 {
     return Hitbox;
 }
+
+void Enemy::set_position(sf::Vector2f InPos)
+{
+    Hitbox.setPosition(InPos);
+}
+
+void Enemy::move(sf::Vector2f MoveVec)
+{
+    Hitbox.move(MoveVec);
+}

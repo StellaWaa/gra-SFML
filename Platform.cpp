@@ -10,3 +10,13 @@ sf::RectangleShape Platform::get_hitbox() const
 {
     return Hitbox;
 }
+
+void Platform::set_position(sf::Vector2f InPos)
+{
+    Hitbox.setPosition(InPos);
+}
+
+void Platform::move(sf::Vector2f MoveVec)
+{
+    Hitbox.move(MoveVec);
+}

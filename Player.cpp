@@ -2,7 +2,7 @@
 
 Player::Player(sf::Vector2f start_pos,std::vector<Platform*> InPlatforms, std::vector<Enemy*> InEnemies)
 	:Hitbox(sf::Vector2f(50,70)),PlayerPhys(InPlatforms, InEnemies)
-	,Hearts(3),SpawnPos(start_pos),DmgTimer(),CanJump(true)
+	,Hearts(3),SpawnPos(start_pos),DmgTimer(),CanJump(true),MoveVec()
 
 {
 	Speed = new sf::Vector2f(0, 0);
@@ -17,7 +17,7 @@ Player::~Player()
 
 void Player::update()
 {
-
+	MoveVec = Hitbox.getPosition();
 	Collision CurCollision = PlayerPhys.update_obj_pos(Hitbox, Speed);
 	if (CurCollision.IsColliding == false)
 		CanJump = false;
@@ -32,6 +32,7 @@ void Player::update()
 		Hearts = 1;
 		take_dmg();
 	}
+	MoveVec -= Hitbox.getPosition();
 }
 
 void Player::handle_player_input()
@@ -76,4 +77,19 @@ void Player::take_dmg()
 int Player::get_hearts()
 {
 	return Hearts;
+}
+
+void Player::set_position(sf::Vector2f InPos)
+{
+	Hitbox.setPosition(InPos);
+}
+
+void Player::move(sf::Vector2f MoveVec)
+{
+	Hitbox.move(MoveVec);
+}
+
+sf::Vector2f Player::get_MoveVec() const
+{
+	return MoveVec;
 }
