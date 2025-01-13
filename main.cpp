@@ -21,7 +21,7 @@ int main() {
     Enemy* Enemy_1 = new Enemy{ sf::Vector2f(250, 400),sf::Vector2f(30,100) };
     std::vector<Enemy*> Enemies{ Enemy_1};
     Player MainPlayer{ sf::Vector2f(300, 300), Platforms, Enemies};
-    std::vector<Drawable*> Drawables {Platform_1,Platform_2, Platform_3, Enemy_1, &MainPlayer};
+    std::vector<Entity*> Entities {Platform_1,Platform_2, Platform_3, Enemy_1, &MainPlayer};
 
 
     while (GameWindow.isOpen())
@@ -36,19 +36,23 @@ int main() {
 
             }
         }
-        GameWindow.clear(sf::Color());
+        GameWindow.clear(sf::Color(100,100,100));
         MainPlayer.update();
-        for (auto item : Drawables) {
-            item->move(sf::Vector2f(MainPlayer.get_MoveVec().x,0));
+
+        //camera
+        for (auto item : Entities) {
+            item->move(sf::Vector2f(MainPlayer.get_MoveVec().x,0), true);
         }
-        GameWindow.draw(Platform_1->get_hitbox());
-        GameWindow.draw(Platform_2->get_hitbox());
-        GameWindow.draw(Platform_3->get_hitbox());
-        GameWindow.draw(Enemy_1->get_hitbox());
-        GameWindow.draw(MainPlayer.get_hitbox());
+        //drawing entities
+        for (auto item : Entities) {
+            item->draw(GameWindow);
+        }
+
+
         int HeartsNum = MainPlayer.get_hearts();
         if (HeartsNum > 0) {
             sf::RectangleShape Heart(sf::Vector2f(20,20));
+            Heart.setFillColor(sf::Color::Red);
             for (int i = 0; i < HeartsNum; i++){
                 Heart.setPosition(10 + i*30, 20);
                 GameWindow.draw(Heart);

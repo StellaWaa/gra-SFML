@@ -18,7 +18,12 @@ void Enemy::set_position(sf::Vector2f InPos)
     Hitbox.setPosition(InPos);
 }
 
-void Enemy::move(sf::Vector2f MoveVec)
+void Enemy::move(sf::Vector2f MoveVec, bool MvdByCamera)
 {
     Hitbox.move(MoveVec);
+}
+
+void Enemy::draw(sf::RenderWindow& InWindow) const
+{
+    InWindow.draw(Hitbox);
 }

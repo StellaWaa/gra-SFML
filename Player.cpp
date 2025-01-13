@@ -1,13 +1,17 @@
 #include "Player.h"
 
 Player::Player(sf::Vector2f start_pos,std::vector<Platform*> InPlatforms, std::vector<Enemy*> InEnemies)
-	:Hitbox(sf::Vector2f(50,70)),PlayerPhys(InPlatforms, InEnemies)
+	:Hitbox(sf::Vector2f(64,64)),PlayerPhys(InPlatforms, InEnemies)
 	,Hearts(3),SpawnPos(start_pos),DmgTimer(),CanJump(true),MoveVec()
+	,PlayerAnimation("AnimationSheet_Character.png",sf::Vector2f(32,32),sf::Vector2f(2,2))
 
 {
+	AniTxtrRects["Idle"] = { sf::IntRect(0, 0, 32,32),sf::IntRect(32, 0, 64,32) };
+	PlayerAnimation.set_frames(AniTxtrRects["Idle"]);
 	Speed = new sf::Vector2f(0, 0);
 	Hitbox.setPosition(start_pos);
 	Hitbox.setFillColor(sf::Color::Magenta);
+
 }
 
 Player::~Player()
@@ -33,6 +37,8 @@ void Player::update()
 		take_dmg();
 	}
 	MoveVec -= Hitbox.getPosition();
+	PlayerAnimation.set_pos(Hitbox.getPosition());
+	PlayerAnimation.update();
 }
 
 void Player::handle_player_input()
@@ -84,9 +90,18 @@ void Player::set_position(sf::Vector2f InPos)
 	Hitbox.setPosition(InPos);
 }
 
-void Player::move(sf::Vector2f MoveVec)
+void Player::move(sf::Vector2f MoveVec, bool MvdByCamera)
 {
 	Hitbox.move(MoveVec);
+	if (MvdByCamera) {
+		SpawnPos += MoveVec;
+	}
+}
+
+void Player::draw(sf::RenderWindow& InWindow) const
+{
+	InWindow.draw(PlayerAnimation.get_sprite());
+	
 }
 
 sf::Vector2f Player::get_MoveVec() const
