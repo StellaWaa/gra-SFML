@@ -7,7 +7,13 @@ Player::Player(sf::Vector2f start_pos,std::vector<Platform*> InPlatforms, std::v
 
 {
 	AniTxtrRects["Idle"] = { sf::IntRect(0, 0, 32,32),sf::IntRect(32, 0, 64,32) };
-	PlayerAnimation.set_frames(AniTxtrRects["Idle"]);
+	AniTxtrRects["Run"] = { sf::IntRect(sf::Vector2i(0,32),sf::Vector2i(32,32))};
+	for (int i = 0; i < 3; i++) {
+		AniTxtrRects["Run"].push_back(sf::IntRect(sf::Vector2i(32 + i*32, 96), sf::Vector2i(32, 32)));
+	}
+	
+	//PlayerAnimation.set_frames(AniTxtrRects["Idle"]);
+	PlayerAnimation.set_frames(AniTxtrRects["Run"]);
 	Speed = new sf::Vector2f(0, 0);
 	Hitbox.setPosition(start_pos);
 	Hitbox.setFillColor(sf::Color::Magenta);

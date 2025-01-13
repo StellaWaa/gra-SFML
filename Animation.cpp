@@ -9,7 +9,7 @@ Animation::Animation(std::string FileName, sf::Vector2f FrameSize,
     AniTexture.loadFromFile(FileName);
     AniSprite.setTexture(AniTexture);
 
-    AniSprite.setTextureRect(StartRect);
+    //AniSprite.setTextureRect(StartRect);
     AniSprite.setScale(ScaleFactor);
     CurrFrame = 0;
 }
@@ -32,13 +32,15 @@ void Animation::set_frames(std::vector<sf::IntRect> InFrames)
 
 void Animation::update()
 {
-    if(AniClock.getElapsedTime().asSeconds() > 0.4) {
+    int NumOfFrames = Frames.size();
+    if(AniClock.getElapsedTime().asSeconds() > (1/60. * 60/NumOfFrames)) {
         CurrFrame++;
         AniClock.restart();
         
-        if (CurrFrame >= (Frames.size())) {
+        if (CurrFrame >= (NumOfFrames)) {
             CurrFrame = 0;
         }
+        std::cout << CurrFrame << '\n';
         AniSprite.setTextureRect(Frames.at(CurrFrame));
     }
 }
