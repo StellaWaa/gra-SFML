@@ -10,3 +10,19 @@ sf::RectangleShape Platform::get_hitbox() const
 {
     return Hitbox;
 }
+
+void Platform::set_position(sf::Vector2f InPos)
+{
+    Hitbox.setPosition(InPos);
+}
+
+void Platform::move(sf::Vector2f MoveVec, bool MvdByCamera)
+{
+    Hitbox.move(MoveVec);
+
+}
+
+void Platform::draw(sf::RenderWindow& InWindow) const
+{
+    InWindow.draw(Hitbox);
+}
