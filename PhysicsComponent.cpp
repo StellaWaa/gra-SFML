@@ -1,5 +1,7 @@
 #include "PhysicsComponent.h"
 
+#include <cmath> 
+
 PhysicsComponent::PhysicsComponent(std::vector<Platform*> InPlatforms)
 	:Gravity(0.1),PhysClock(),Platforms(InPlatforms)
 {
